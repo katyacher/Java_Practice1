@@ -1,22 +1,33 @@
 package lab1;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 /** 
+ * @author Khoroshko Ekaterina ZKI21-16B 21.03.2024
+ * Класс Main содержит статические свойства shapes, scanner, MIN_INT, MAX_INT.
+ * В классе реализовано пользовательское меню для работы с коллекцией объектов фигурв главном методе main(), 
+ * а также методы добавления, удаления, просмотра элементов коллекции и сравнения двух элементов из коллекции.
  * 
+ *	 
+ *  * @exception NumberFormatException -  непроверяемое исключение. Вызывают конструкторы  Integer(), Double(), когда не могут преобразовать строку в числовй тип
+ * с помощью методов parseInt() и parseDouble() соответственно.
  * */
  
 
 
 public class Main {
+	/** Минимальное значение целого числа для работы с меню*/
 	private static final int MIN_INT = 0;
+	/** Максимальное значение целого числа для работы с меню*/
     private static final int MAX_INT = 6;
     
-    protected static final int MIN_D = 0;
-	protected static final int MAX_D = 100;
+	/** Коллекция фигур - статическое свойство класса Main */
+    public static ArrayList<Shape> shapes = new ArrayList<>();
     
-    public static ArrayList<Shape> shapes = new ArrayList<>();// коллекия фигур
+    /**  Объект сканнера для чтения данных из консоли */
     public static Scanner scanner = new Scanner(System.in);
-
+    
+    /** Главный метод программы. Запускает цикл для работы в меню программы*/
 	public static void main(String[] args) {
 		
 		String s= "";
@@ -25,7 +36,7 @@ public class Main {
         while( !"5".equals(s)){
         	System.out.println("");
             System.out.println("Выберете действие:");
-            System.out.println("1. Добавить новый элемент "); //(Элементы должны добавляться в коллекцию элементов типа базового класса. Необходимо предусмотреть возможность добавления любого объекта производного класса в данную коллекцию).
+            System.out.println("1. Добавить новый элемент "); 
             System.out.println("2. Удалить элемент по индексу");
             System.out.println("3. Вывод всех элементов в консоль");
             System.out.println("4. Сравнение двух элементов на равенство (по индексам)");
@@ -70,7 +81,11 @@ public class Main {
 	}
        
 
-	
+	/** Статический метод класса, осуществляет создание выбранной пользователем фигуры производного класса 
+	 * и добавление ее в коллекцию элементов типа базового класса.
+	 * @exception NumberFormatException -  непроверяемое исключение, вызывается конструктором Double()
+	 * при неудачной попытке преобразования стркового типа к числовому типу  методом parseDouble()
+	 * */
 	public static void add() {
 		System.out.println("Выберете тип добавляемой фигуры (Triangle, Rectangle, Square)");
 		scanner.skip(".*\n");
@@ -93,15 +108,15 @@ public class Main {
 				s = scanner.next(); 
 				double c = Double.parseDouble(s);
 				
-				if (a < MIN_D || a > MAX_D) {
+				if (a < Shape.MIN_DBL || a > Shape.MAX_DBL) {
 					System.out.println("Длина стороны 'a' треугольника доолжна быть положительным числом от 0 о 99");
 					return;
 				}
-				if (b < MIN_D || b > MAX_D) {
+				if (b < Shape.MIN_DBL || b > Shape.MAX_DBL) {
 					System.out.println("Длина стороны 'b' треугольника доолжна быть положительным числом от 0 о 99");
 					return;
 				}
-				if (c < MIN_D || c > MAX_D) {
+				if (c < Shape.MIN_DBL || c > Shape.MAX_DBL) {
 					System.out.println("Длина стороны 'c' треугольника доолжна быть положительным числом от 0 о 99");
 					return;
 				}
@@ -125,11 +140,11 @@ public class Main {
 				s = scanner.next(); 
 				double b = Double.parseDouble(s);
 				
-				if (a < MIN_D || a > MAX_D) {
+				if (a < Shape.MIN_DBL || a > Shape.MAX_DBL) {
 					System.out.println("Длина стороны 'a' прямоугольника доолжна быть положительным числом от 0 о 99");
 					return;
 				}
-				if (b < MIN_D || b > MAX_D) {
+				if (b < Shape.MIN_DBL || b > Shape.MAX_DBL) {
 					System.out.println("Длина стороны 'b' прямоугольника доолжна быть положительным числом от 0 о 99");
 					return;
 				}
@@ -142,14 +157,14 @@ public class Main {
             };
 			
 		} else if(ans.equals("Square")) {
-			System.out.println("Введите значения стороны квадрата:");
+			System.out.println("Введите значение стороны квадрата:");
 			
 			try{
 				System.out.println("a = ");
 				s = scanner.next(); 
 				double a = Double.parseDouble(s);
 				
-				if (a < MIN_D || a > MAX_D) {
+				if (a < Shape.MIN_DBL || a > Shape.MAX_DBL) {
 					System.out.println("Сторона квадрата доолжна быть положительным числом от 0 о 99");
 					return;
 				}
@@ -168,18 +183,20 @@ public class Main {
 		return;
 	}
 	
+	
+	/** Статический метод класса, выполняет удаление элемента из коллекции по заданному индексу */
 	public static void remove() {
 		if(shapes.size() == 0) {
 			System.out.println("Коллекция пуста");
 			return;
 		}
-		
+	
 		System.out.println("Введите индекс удаляемого элемента от 0 до " + (shapes.size()-1) );
 		int ans = 0;
 		while(true) {
 			if(!scanner.hasNextInt()){
 	            System.out.println("Некорректные данные, попробуйте снова.");
-	            scanner.next(); /* считываем все данные, сбрасывая ввод*/
+	            scanner.next(); 
 	        } else {
 	        	ans = scanner.nextInt();
 	            if(ans >= 0 && ans < shapes.size()){
@@ -195,6 +212,10 @@ public class Main {
 		return;
 	}
 	
+	
+	/**Статический метод класса, выполняет вывод в консоль всех элементов колекции, 
+	 * если коллекция пуста, выводится информация об этом
+	 * */
 	public static void show() {
 		if(shapes.size() == 0) {
 			System.out.println("Коллекция пуста");
@@ -202,10 +223,14 @@ public class Main {
 		} 
 		
 		for(int i = 0; i < shapes.size(); ++i ) {
+			/** Метода get() класса ArrayList() осуществляет доступ к элементам коллкции по индексу*/
 			System.out.println("[" + i + "] " + shapes.get(i).toString());
 		}
 	}
 	
+	/** Статический метод класса, в котором выполняется сравнение двух элементов класса на равенство, 
+	 * если в кллекции меньше двух элементов, сравнение не проводится, пользователю выводится сообщаение 
+	 * */
 	public static void compare() {
 		if(shapes.size() == 0) {
 			System.out.println("Коллекция пуста");
@@ -215,7 +240,7 @@ public class Main {
 			System.out.println("Недостаточно элементов для сравнения");
 			return;
 		} 
-		
+		/**Индексы элементов для сравнения */
 		int index_1, index_2 = 0;
 		
 		System.out.println("Введите индекс первого элемента от 0 до " + (shapes.size()- 1));
@@ -223,14 +248,14 @@ public class Main {
 		while(true) {
 			if(!scanner.hasNextInt()){
 	            System.out.println("Некорректные данные, попробуйте снова!");
-	            scanner.next(); /* считываем все данные, сбрасывая ввод*/
+	            scanner.next();
 	        } else {
 	        	index_1 = scanner.nextInt();
 	            if(index_1 >= 0 && index_1 < shapes.size()){
 	            	break;
 	            } else {
 	            	System.out.println("Некорректный диапазон, попробуйте снова!");
-	            	index_1 = 0; // устанавливаем ans в 0 для повторного ввода
+	            	index_1 = 0; // устанавливаем index_1 в 0 для повторного ввода
 	            }
 	        }
 		}
@@ -240,14 +265,14 @@ public class Main {
 		while(true) {
 			if(!scanner.hasNextInt()){
 	            System.out.println("Некорректные данные, попробуйте снова!");
-	            scanner.next(); /* считываем все данные, сбрасывая ввод*/
+	            scanner.next(); 
 	        } else {
 	        	index_2 = scanner.nextInt();
 	            if(index_2 >= 0 && index_2 < shapes.size()){
 	            	break;
 	            } else {
 	            	System.out.println("Некорректный диапазон, попробуйте снова!");
-	            	index_2 = 0; // устанавливаем ans в 0 для повторного ввода
+	            	index_2 = 0; // устанавливаем index_2 в 0 для повторного ввода
 	            }
 	        }
 		}
